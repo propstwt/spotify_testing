@@ -35,14 +35,16 @@ switch (page_id) {
       "long_term",
       10
     )) as unknown as Page<Track>;
-    console.log(track.items[0]);
-    document.getElementById("1")!.innerText = track.items[0].name + " ";
+    // const artistNames = track.items[0].artists.map((artist) => artist.name);
+    // console.log(artistNames);
+    // console.log(track.items[0]);
+    // document.getElementById("1")!.innerText =
+    //   track.items[0].name + " - " + artistNames;
+    populateTrackUI(track.items);
     break;
   default:
     break;
 }
-
-// const profile: UserResponse = (await sdk.currentUser.profile()) as UserResponse;
 
 function populateProfileUI(profile: UserResponse) {
   document.getElementById("displayName")!.innerText = profile.display_name;
@@ -61,4 +63,13 @@ function populateProfileUI(profile: UserResponse) {
   document.getElementById("url")!.setAttribute("href", profile.href);
   document.getElementById("imgUrl")!.innerText =
     profile.images[0]?.url ?? "(no profile image)";
+}
+
+function populateTrackUI(tracks: Track[]) {
+  for (let index = 0; index < tracks.length; index++) {
+    const artistNames = tracks[index].artists.map((artist) => artist.name);
+    const trackName = tracks[index].name;
+    document.getElementById(`track${index}`)!.innerText =
+      trackName + " - " + artistNames;
+  }
 }
